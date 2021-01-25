@@ -99,7 +99,7 @@ function admin_dashboard_widget_callback()
 
 
 
-  
+
 
 add_action( 'admin_menu', 'custom_yousry_plugin_show_in_nav' );
 
@@ -118,6 +118,24 @@ function custom_yousry_plugin_show_in_nav()
 function custom_plugin_yousry_desion(){
  include_once('Design.php');
  php_deion();
+}
+
+
+
+//add style  Sheets
+add_action('admin_enqueue_scripts','add_yousry_style');
+function add_yousry_style()
+{
+  wp_enqueue_style('cover_stylesheet',plugins_url('assets/css/style.css',__FILE__));
+}
+
+
+// //add style  scripts
+
+add_action( 'admin_enqueue_scripts', 'my_plugin_assets' );
+function my_plugin_assets() {
+    // wp_enqueue_style( 'custom-gallery', plugins_url( '/css/gallery.css' , __FILE__ ) );
+    wp_enqueue_script( 'custom-gallery', plugins_url( 'assets/js/scripts.js' , __FILE__ ) );
 }
 
 
