@@ -1,0 +1,17 @@
+{
+    "name": "it8/yousry-plugin",
+    "description": "yousry plugin example",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "ayousry943",
+            "email": "ayousry943@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+      "psr-4": {"Inc\\":"./Inc"}
+    }
+}

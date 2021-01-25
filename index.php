@@ -5,6 +5,24 @@
 
 **/
 
+if (file_exists( dirname(__FILE__) . '/vendor/autoload.php' )) {
+   require_once dirname(__FILE__) . '/vendor/autoload.php';
+}
+
+use Inc\Activate;
+
+$Activate = new Activate();
+$Activate->create_table_yousryPlugin();
+
+
+if (class_exists('Inc\\Init' )) {
+
+Inc\Init::register_services();
+}
+
+//Call function  when you active  plugin
+register_activation_hook( __FILE__, array($Activate,'create_table_yousryPlugin') );
+
 function  set_html_content_type()
 {
   return  'text/html';
@@ -107,15 +125,23 @@ add_action( 'admin_menu', 'custom_yousry_plugin_show_in_nav' );
 function custom_yousry_plugin_show_in_nav()
 {
   add_menu_page(
-    'custom plugin',//page  title
-    'Custom Plugin', //menu Title
+    'custom plugin yousry',//page  title
+    'Custom Plugin yousry', //menu Title
     'manage_options',
-    'custom_plugin_page',
-    'custom_plugin_yousry_desion'
+    'my-top-level-handle', // name of submenu
+    'custom_plugin_yousry_desion' //call back function
   );
+
+  add_submenu_page( 'my-top-level-handle', 'Page title', 'Sub-menu title', 'manage_options', 'my-submenu-handle', 'custom_plugin_yousry_desion');
+  add_submenu_page( 'my-top-level-handle', 'yousry title', 'yousry title', 'manage_options', 'my-submenu-handle', 'custom_plugin_yousry_desion');
+
+
+
 }
 
 function custom_plugin_yousry_desion(){
+//run  sql  SELECT queary
+
  include_once('Design.php');
  php_deion();
 }
@@ -136,6 +162,60 @@ add_action( 'admin_enqueue_scripts', 'my_plugin_assets' );
 function my_plugin_assets() {
     // wp_enqueue_style( 'custom-gallery', plugins_url( '/css/gallery.css' , __FILE__ ) );
     wp_enqueue_script( 'custom-gallery', plugins_url( 'assets/js/scripts.js' , __FILE__ ) );
+}
+
+
+// Create Table for Your  Plugin
+
+// function  create_table_yousryPlugin()
+// {
+//         global $wpdb;
+//          $table_name = $wpdb->prefix . "table_yousryPlugin";
+//
+//       $charset_collate = $wpdb->get_charset_collate();
+//
+//       $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+//         id mediumint(9) NOT NULL AUTO_INCREMENT,
+//         time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+//         name tinytext NOT NULL,
+//         text text NOT NULL,
+//         url varchar(55) DEFAULT '' NOT NULL,
+//         PRIMARY KEY  (id)
+//       ) $charset_collate;";
+//
+//       require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+//       dbDelta( $sql );
+//
+//
+// }
+//
+// //Call function  when you active  plugin
+// register_activation_hook( __FILE__, 'create_table_yousryPlugin' );
+
+
+// select queary
+function  select_plugin_yousry()
+{
+  global $wpdb;
+  $db_results = $wpdb->get_results(
+    $wpdb->prepare(
+      "SELECT * from wp_posts order by ID limit 5",''
+      )
+  );
+  echo "<pre>", print_r($db_results); echo "</pre>";
+}
+
+
+// delete  quary
+function delete_plugin_yousry()
+{
+   global  $wpdb;
+   $wpdb->delete(
+     "wp_custom_plugin",
+     array(
+       "id"=>5
+     )
+   );
 }
 
 
