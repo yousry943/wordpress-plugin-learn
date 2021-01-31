@@ -16,14 +16,20 @@ final  class Init
        {
 
 
-           foreach (self::get_services() as  $class) {
-             echo  "<pre>".print_r($class)."<pre>";
-             $service =  self::instantiate($class);
-             if (method_exists($service , 'register')) {
-               // code...
-               $service->register();
-             }
-           }
+            foreach (self::get_services() as  $class) {
+              // echo  "<pre>".print_r($class)."<pre>";
+              $service =  self::instantiate($class);
+              if (method_exists($service , 'register')) {
+                // code...
+                $service->register();
+              }
+            }
+       }
+
+       private static function instantiate($class)
+       {
+          $service =  new $class();
+          return  $service;
        }
 
 }

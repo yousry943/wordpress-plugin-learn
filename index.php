@@ -14,10 +14,12 @@ use Inc\Activate;
 $Activate = new Activate();
 $Activate->create_table_yousryPlugin();
 
+define('PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-if (class_exists('Inc\\Init' )) {
+if ( class_exists('Inc\\Init' ) ) {
 
 Inc\Init::register_services();
+
 }
 
 //Call function  when you active  plugin
